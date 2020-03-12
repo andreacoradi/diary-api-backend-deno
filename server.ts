@@ -7,6 +7,7 @@ const router = new Router();
 
 router
   .get("/api", ctx => {
+    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
     ctx.response.body = "It works!";
   })
   .post("/api", async ctx => {
@@ -42,7 +43,7 @@ router
     }
 
     await addUser({ username, pages: [] });
-
+    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
     ctx.response.body = { jwt: token };
   })
   .get("/api/pages", async ctx => {
@@ -65,6 +66,7 @@ router
       };
       return;
     }
+    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
     ctx.response.body = user;
   })
   .post("/api/pages", async ctx => {
@@ -106,6 +108,7 @@ router
       return;
     }
     await setPages(username, pages);
+    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
     ctx.response.body = {
       msg: "success"
     };
