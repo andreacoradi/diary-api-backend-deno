@@ -7,11 +7,6 @@ const router = new Router();
 
 router
   .get("/api", ctx => {
-    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
-    ctx.response.headers.append(
-      "access-control-allow-headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Range"
-    );
     ctx.response.body = "It works!";
   })
   .post("/api", async ctx => {
@@ -47,11 +42,7 @@ router
     }
 
     await addUser({ username, pages: [] });
-    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
-    ctx.response.headers.append(
-      "access-control-allow-headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Range"
-    );
+
     ctx.response.body = { jwt: token };
   })
   .get("/api/pages", async ctx => {
@@ -74,11 +65,6 @@ router
       };
       return;
     }
-    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
-    ctx.response.headers.append(
-      "access-control-allow-headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Range"
-    );
     ctx.response.body = user;
   })
   .post("/api/pages", async ctx => {
@@ -120,17 +106,21 @@ router
       return;
     }
     await setPages(username, pages);
-    ctx.response.headers.append("Access-Control-Allow-Origin", "*");
-    ctx.response.headers.append(
-      "access-control-allow-headers",
-      "Origin, X-Requested-With, Content-Type, Accept, Range"
-    );
+
     ctx.response.body = {
       msg: "success"
     };
   });
 
 const app = new Application();
+app.use(async (ctx, next) => {
+  ctx.response.headers.append("access-control-allow-origin", "*");
+  ctx.response.headers.append(
+    "access-control-allow-headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Range"
+  );
+  await next();
+});
 app.use(router.routes());
 app.use(router.allowedMethods());
 
