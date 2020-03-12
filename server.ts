@@ -117,7 +117,7 @@ app.use(async (ctx, next) => {
   ctx.response.headers.append("access-control-allow-origin", "*");
   ctx.response.headers.append(
     "access-control-allow-headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Range"
+    "x-access-token, Origin, X-Requested-With, Content-Type, Accept, Range"
   );
   await next();
 });
