@@ -1,5 +1,5 @@
-// const AUTH_SERVER = "https://jwt-auth-deno.herokuapp.com/";
-const AUTH_SERVER = "http://localhost:4000/";
+const AUTH_SERVER = "https://jwt-auth-deno.herokuapp.com/";
+// const AUTH_SERVER = "http://localhost:4000/";
 
 export const auth = async (token: string) => {
   return (await fetch(
