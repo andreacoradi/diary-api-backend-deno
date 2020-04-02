@@ -1,5 +1,5 @@
 import { Application, Router } from "https://deno.land/x/oak/mod.ts";
-import { parse } from "https://deno.land/std/flags/mod.ts";
+import { parse } from "https://deno.land/std@v0.38.0/flags/mod.ts";
 import { getUser, addUser, addPages, setPages } from "./db.ts";
 import { auth, register } from "./auth.ts";
 
@@ -22,7 +22,6 @@ router
     }
 
     const { username, password } = body.value;
-    console.log(username, password);
     const user = await getUser(username);
     if (user) {
       ctx.response.status = 400;
@@ -32,7 +31,13 @@ router
       return;
     }
     const token: any = await register(username, password);
-    console.log(token);
+    if(!token) {
+      ctx.response.status = 400;
+      ctx.response.body = {
+        msg: "You need to provide a token"
+      };
+      return;
+    }
     if (token.msg) {
       ctx.response.status = 400;
       ctx.response.body = {

@@ -7,12 +7,15 @@ export const auth = async (token: string) => {
     { headers: { "x-access-token": token } }
   )
     .then(r => r.json())
-    .then(b => b.username));
+    .then(b => b.username))
+    .catch((e: any) => {
+      console.error(e)
+    });
 };
 
 export const register = async (username: string, password: string) => {
-  let failed;
-  let token;
+  let failed: any;
+  let token: any;
   const body = { username, password };
   (await fetch(AUTH_SERVER + "users", {
     method: "POST",
@@ -23,6 +26,8 @@ export const register = async (username: string, password: string) => {
       if (b.msg) {
         failed = b;
       }
+    }).catch(e => {
+      console.error(e)
     }));
   if (failed) {
     console.log("FAILED1");
@@ -39,6 +44,8 @@ export const register = async (username: string, password: string) => {
       } else {
         token = b.jwt;
       }
+    }).catch(e => {
+      console.error(e)
     }));
   if (failed) {
     console.log("FAILED2");
