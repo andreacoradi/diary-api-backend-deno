@@ -1,4 +1,4 @@
-const AUTH_SERVER = "https://jwt-auth-deno.herokuapp.com/";
+const AUTH_SERVER = "https://denoauth.tk/";
 // const AUTH_SERVER = "http://localhost:4000/";
 
 export const auth = async (token: string) => {
