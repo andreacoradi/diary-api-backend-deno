@@ -1,5 +1,8 @@
-const AUTH_SERVER = "https://denoauth.tk/";
-// const AUTH_SERVER = "http://localhost:4000/";
+const AUTH_SERVER = Deno.env.get("AUTH_SERVER");
+
+if(AUTH_SERVER === "") {
+  console.error("No endpoint set!")
+}
 
 export const auth = async (token: string) => {
   return (await fetch(
@@ -8,9 +11,6 @@ export const auth = async (token: string) => {
   )
     .then(r => r.json())
     .then(b => b.username))
-    .catch((e: any) => {
-      console.error(e)
-    });
 };
 
 export const register = async (username: string, password: string) => {

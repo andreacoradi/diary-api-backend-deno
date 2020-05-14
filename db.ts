@@ -1,4 +1,4 @@
-import { readJson, writeJson, exists } from "https://deno.land/std@v0.38.0/fs/mod.ts";
+import { readJson, writeJson, exists } from "https://deno.land/std@v0.51.0/fs/mod.ts";
 
 const DB_URL = "./db.json"
 
