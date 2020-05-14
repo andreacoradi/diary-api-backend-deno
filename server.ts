@@ -34,7 +34,7 @@ router
     if(!token) {
       ctx.response.status = 400;
       ctx.response.body = {
-        msg: "You need to provide a token"
+        msg: "Error while registering: " + token
       };
       return;
     }
@@ -131,7 +131,7 @@ app.use(router.allowedMethods());
 
 const DEFAULT_PORT = 8080;
 const argPort = Deno.env.get("PORT");
-const port = argPort ? Number(argPort) : DEFAULT_PORT;
+const port = argPort != "" ? Number(argPort) : DEFAULT_PORT;
 
 const address = `0.0.0.0:${port}`
 

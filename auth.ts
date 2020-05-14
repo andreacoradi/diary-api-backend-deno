@@ -6,7 +6,7 @@ if(AUTH_SERVER === "") {
 
 export const auth = async (token: string) => {
   return (await fetch(
-    AUTH_SERVER + "auth",
+    AUTH_SERVER + "/auth",
     { headers: { "x-access-token": token } }
   )
     .then(r => r.json())
@@ -17,8 +17,11 @@ export const register = async (username: string, password: string) => {
   let failed: any;
   let token: any;
   const body = { username, password };
-  (await fetch(AUTH_SERVER + "users", {
+  (await fetch(AUTH_SERVER + "/users", {
     method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
     body: JSON.stringify(body)
   })
     .then(async r => r.json())
@@ -33,7 +36,7 @@ export const register = async (username: string, password: string) => {
     console.log("FAILED1");
     return failed;
   }
-  (await fetch(AUTH_SERVER + "users/" + username, {
+  (await fetch(AUTH_SERVER + `/users/${username}`, {
     method: "POST",
     body: JSON.stringify({ password })
   })
