@@ -1,7 +1,13 @@
 import { Application, Router } from "https://deno.land/x/oak@v4.0.0/mod.ts";
-import { parse } from "https://deno.land/std@v0.51.0/flags/mod.ts";
 import { getUser, addUser, addPages, setPages } from "./db.ts";
 import { auth, register } from "./auth.ts";
+import {
+  green,
+  cyan,
+  bold,
+  yellow,
+} from "https://deno.land/std@0.51.0/fmt/colors.ts";
+
 
 const router = new Router();
 
@@ -118,6 +124,26 @@ router
   });
 
 const app = new Application();
+
+app.use(async (ctx, next) => {
+  await next();
+  const rt = ctx.response.headers.get("X-Response-Time");
+  console.log(
+    `${green(ctx.request.method)} ${cyan(ctx.request.url.pathname)} - ${
+      bold(
+        String(rt),
+      )
+    }`,
+  );
+});
+
+app.use(async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  const ms = Date.now() - start;
+  ctx.response.headers.set("X-Response-Time", `${ms}ms`);
+});
+
 app.use(async (ctx, next) => {
   ctx.response.headers.append("access-control-allow-origin", "*");
   ctx.response.headers.append(
