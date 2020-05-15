@@ -38,9 +38,9 @@ router
     }
     const token: any = await register(username, password);
     if(!token) {
-      ctx.response.status = 400;
+      ctx.response.status = 500;
       ctx.response.body = {
-        msg: "Error while registering: " + token
+        msg: "Error while registering"
       };
       return;
     }
